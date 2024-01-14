@@ -25,6 +25,6 @@ jobs:
           cd ..
 
       - name: Publish test coverage
-      - uses: paambaati/codeclimate-action@v5.0.0
+        uses: paambaati/codeclimate-action@v5.0.0
         env:
           CC_TEST_REPORTER_ID: 06adae8f1f1db641ff1121b8eddd13dad70481989e3174349ba14495b91a0b3d
