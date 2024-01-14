@@ -1,5 +1,7 @@
 package hexlet.code;
 
+import hexlet.code.exceptions.FileException;
+import hexlet.code.exceptions.FormatException;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -20,8 +22,12 @@ public class App implements Callable<Integer> {
     private String filePath2;
 
     @Override
-    public Integer call() throws Exception {
-        System.out.println(Differ.generate(format, filePath1, filePath2));
+    public Integer call() {
+        try {
+            System.out.println(Differ.generate(format, filePath1, filePath2));
+        } catch (FormatException | FileException e) {
+            System.out.println(e.getMessage());
+        }
         return 0;
     }
 
