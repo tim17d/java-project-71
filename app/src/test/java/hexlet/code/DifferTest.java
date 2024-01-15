@@ -11,7 +11,7 @@ public class DifferTest {
     String resourcesDir = "src/test/resources/";
 
     @Test
-    public void testGenerate() throws Exception {
+    public void testGenerateWithAllTypeOfDiffs() throws Exception {
         var actualDiff1 = Differ.generate("stylish", resourcesDir + "file1.json",
                 resourcesDir + "file2.json");
         var expectedDiff1 = """
@@ -24,7 +24,10 @@ public class DifferTest {
                   + verbose: true
                 }""";
         assertThat(actualDiff1).as("File difference").isEqualTo(expectedDiff1);
+    }
 
+    @Test
+    public void testGenerateWithAbsoluteDiff() throws Exception {
         var actualDiff2 = Differ.generate("stylish", resourcesDir + "file1.json",
                 resourcesDir + "file3.json");
         var expectedDiff2 = """
@@ -39,7 +42,10 @@ public class DifferTest {
                   + unfollow: false
                 }""";
         assertThat(actualDiff2).as("File difference").isEqualTo(expectedDiff2);
+    }
 
+    @Test
+    public void testGenerateWithNoDiff() throws Exception {
         var actualDiff3 = Differ.generate("stylish", resourcesDir + "file1.json",
                 resourcesDir + "file1.json");
         var expectedDiff3 = """
@@ -50,7 +56,10 @@ public class DifferTest {
                     timeout: 50
                 }""";
         assertThat(actualDiff3).as("File difference").isEqualTo(expectedDiff3);
+    }
 
+    @Test
+    public void testGenerateThrowsExceptions() {
         assertThatThrownBy(() -> {
             Differ.generate("1234", resourcesDir + "file1.json", resourcesDir + "file2.json");
         }).isInstanceOf(FormatException.class)
@@ -67,5 +76,13 @@ public class DifferTest {
             Differ.generate("stylish", resourcesDir + "file1.json", filePath2);
         }).isInstanceOf(FileException.class)
                 .hasMessage("File '" + filePath2 + "' does not exist");
+
+        assertThatThrownBy(() -> {
+            Differ.generate("stylish", resourcesDir + "hello.html", resourcesDir + "file2.json");
+        }).isInstanceOf(FileException.class);
+
+        assertThatThrownBy(() -> {
+            Differ.generate("stylish", resourcesDir + "file1.json", resourcesDir + "hello.html");
+        }).isInstanceOf(FileException.class);
     }
 }
