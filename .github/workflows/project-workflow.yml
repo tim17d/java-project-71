@@ -19,16 +19,13 @@ jobs:
           build-root-directory: 'app'
 
       - name: Build project
-        run: ${{github.workspace}}/app/gradlew build
-
-      - name: Check codestyle
-        run: ${{github.workspace}}/app/gradlew checkstyleMain
+        run: make build
 
       - name: Publish test coverage
         uses: paambaati/codeclimate-action@v5.0.0
         env:
-          CC_TEST_REPORTER_ID: 06adae8f1f1db641ff1121b8eddd13dad70481989e3174349ba14495b91a0b3d
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
           JACOCO_SOURCE_PATH: src/main/java
         with:
-          coverageCommand: ${{github.workspace}}/app/gradlew jacocoTestReport
+          coverageCommand: make report
           coverageLocations: ${{github.workspace}}/app/build/reports/jacoco/test/jacocoTestReport.xml:jacoco  
