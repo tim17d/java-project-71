@@ -18,9 +18,14 @@ jobs:
           gradle-version: '8.3'
           build-root-directory: 'app'
 
-      - name: Build project and publish test coverage
-        run: |
-          ./cc-reporter before-build
-          make build
-          JACOCO_SOURCE_PATH=src/main/java ./cc-reporter format-coverage app/build/reports/jacoco/test/html/index.html --input-type jacoco
-          ./cc-reporter upload-coverage
+      - name: Build project
+        run: make build
+
+      - name: Publish test coverage
+        uses: paambaati/codeclimate-action@v5.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+          JACOCO_SOURCE_PATH: ${{github.workspace}}/app/src/main/java
+        with:
+          coverageCommand: make report
+          coverageLocations: ${{github.workspace}}/app/build/reports/jacoco/test/jacocoTestReport.xml:jacoco
