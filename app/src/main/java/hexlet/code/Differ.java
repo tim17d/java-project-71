@@ -1,13 +1,8 @@
 package hexlet.code;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.exceptions.FileException;
 import hexlet.code.exceptions.FormatException;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,8 +12,8 @@ import java.util.StringJoiner;
 public class Differ {
     public static String generate(String format, String filePath1, String filePath2)
             throws FileException, FormatException {
-        var map1 = getDataFromFile(filePath1);
-        var map2 = getDataFromFile(filePath2);
+        var map1 = Parser.getDataFromFile(filePath1);
+        var map2 = Parser.getDataFromFile(filePath2);
         var diffMap = getDiffMap(map1, map2);
         if (format.equals("stylish")) {
             var keysUnion = new HashSet<>(map1.keySet());
@@ -41,19 +36,6 @@ public class Differ {
             return "{\n  " + sj + "\n}";
         } else {
             throw new FormatException("Wrong format");
-        }
-    }
-
-    private static Map<String, Object> getDataFromFile(String filePath) throws FileException {
-        var path = Paths.get(filePath).toAbsolutePath().normalize();
-        if (!Files.exists(path)) {
-            throw new FileException("File '" + filePath + "' does not exist");
-        }
-        var objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.readValue(Files.readString(path), new TypeReference<>() { });
-        } catch (IOException e) {
-            throw new FileException(e.getMessage());
         }
     }
 

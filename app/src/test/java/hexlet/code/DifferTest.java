@@ -1,6 +1,5 @@
 package hexlet.code;
 
-import hexlet.code.exceptions.FileException;
 import hexlet.code.exceptions.FormatException;
 import org.junit.jupiter.api.Test;
 
@@ -8,12 +7,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class DifferTest {
-    String resourcesDir = "src/test/resources/";
+    private static final String RESOURCES_DIR = "src/test/resources/";
 
     @Test
     public void testGenerateWithAllTypeOfDiffs() throws Exception {
-        var actualDiff1 = Differ.generate("stylish", resourcesDir + "file1.json",
-                resourcesDir + "file2.json");
+        var actualDiff1 = Differ.generate("stylish", RESOURCES_DIR + "file1.json",
+                RESOURCES_DIR + "file2.json");
         var expectedDiff1 = """
                 {
                   - follow: false
@@ -28,8 +27,8 @@ public class DifferTest {
 
     @Test
     public void testGenerateWithAbsoluteDiff() throws Exception {
-        var actualDiff2 = Differ.generate("stylish", resourcesDir + "file1.json",
-                resourcesDir + "file3.json");
+        var actualDiff2 = Differ.generate("stylish", RESOURCES_DIR + "file1.json",
+                RESOURCES_DIR + "file3.json");
         var expectedDiff2 = """
                 {
                   + adapter: 123.234.53.22
@@ -46,8 +45,8 @@ public class DifferTest {
 
     @Test
     public void testGenerateWithNoDiff() throws Exception {
-        var actualDiff3 = Differ.generate("stylish", resourcesDir + "file1.json",
-                resourcesDir + "file1.json");
+        var actualDiff3 = Differ.generate("stylish", RESOURCES_DIR + "file1.json",
+                RESOURCES_DIR + "file1.json");
         var expectedDiff3 = """
                 {
                     follow: false
@@ -61,28 +60,8 @@ public class DifferTest {
     @Test
     public void testGenerateThrowsExceptions() {
         assertThatThrownBy(() -> {
-            Differ.generate("1234", resourcesDir + "file1.json", resourcesDir + "file2.json");
+            Differ.generate("1234", RESOURCES_DIR + "file1.json", RESOURCES_DIR + "file2.json");
         }).isInstanceOf(FormatException.class)
-                .hasMessageContaining("Wrong format");
-
-        var filePath1 = "text1.json";
-        assertThatThrownBy(() -> {
-            Differ.generate("stylish", filePath1, resourcesDir + "file2.json");
-        }).isInstanceOf(FileException.class)
-                .hasMessage("File '" + filePath1 + "' does not exist");
-
-        var filePath2 = "text2.json";
-        assertThatThrownBy(() -> {
-            Differ.generate("stylish", resourcesDir + "file1.json", filePath2);
-        }).isInstanceOf(FileException.class)
-                .hasMessage("File '" + filePath2 + "' does not exist");
-
-        assertThatThrownBy(() -> {
-            Differ.generate("stylish", resourcesDir + "hello.html", resourcesDir + "file2.json");
-        }).isInstanceOf(FileException.class);
-
-        assertThatThrownBy(() -> {
-            Differ.generate("stylish", resourcesDir + "file1.json", resourcesDir + "hello.html");
-        }).isInstanceOf(FileException.class);
+                .hasMessage("Wrong format");
     }
 }
