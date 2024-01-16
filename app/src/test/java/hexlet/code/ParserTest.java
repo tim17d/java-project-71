@@ -10,29 +10,23 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class ParserTest {
     private static final String RESOURCES_DIR = "src/test/resources/";
+    private static final Map<String, Object> EXPECTED_DATA = Map.of(
+            "host", "hexlet.io",
+            "timeout", 50,
+            "proxy", "123.234.53.22",
+            "follow", false
+    );
 
     @Test
     public void testGetDataFromFileJson() throws Exception {
         var actualData = Parser.getDataFromFile(RESOURCES_DIR + "file1.json");
-        var expectedData = Map.of(
-                "host", "hexlet.io",
-                "timeout", 50,
-                "proxy", "123.234.53.22",
-                "follow", false
-        );
-        assertThat(actualData).as("Data from JSON file").isEqualTo(expectedData);
+        assertThat(actualData).as("Data from JSON file").isEqualTo(EXPECTED_DATA);
     }
 
     @Test
     public void testGetDataFromFileYaml() throws Exception {
         var actualData = Parser.getDataFromFile(RESOURCES_DIR + "file1.yml");
-        var expectedData = Map.of(
-                "host", "hexlet.io",
-                "timeout", 50,
-                "proxy", "123.234.53.22",
-                "follow", false
-        );
-        assertThat(actualData).as("Data from YAML file").isEqualTo(expectedData);
+        assertThat(actualData).as("Data from YAML file").isEqualTo(EXPECTED_DATA);
     }
 
     @Test

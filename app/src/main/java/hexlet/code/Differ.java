@@ -3,10 +3,7 @@ package hexlet.code;
 import hexlet.code.exceptions.FileException;
 import hexlet.code.exceptions.FormatException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.StringJoiner;
 
 public class Differ {
@@ -14,7 +11,7 @@ public class Differ {
             throws FileException, FormatException {
         var map1 = Parser.getDataFromFile(filePath1);
         var map2 = Parser.getDataFromFile(filePath2);
-        var diffMap = getDiffMap(map1, map2);
+        var diffMap = Data.getDiffMap(map1, map2);
         if (format.equals("stylish")) {
             var keysUnion = new HashSet<>(map1.keySet());
             keysUnion.addAll(map2.keySet());
@@ -37,31 +34,5 @@ public class Differ {
         } else {
             throw new FormatException("Wrong format");
         }
-    }
-
-    private static Map<String, ArrayList<String>> getDiffMap(Map<String, Object> map1, Map<String, Object> map2) {
-        var diffMap = new HashMap<>(Map.of(
-                "created", new ArrayList<String>(),
-                "deleted", new ArrayList<String>(),
-                "changed", new ArrayList<String>()
-        ));
-
-        var created = new HashSet<>(map2.keySet());
-        created.removeAll(map1.keySet());
-        created.forEach(key -> diffMap.get("created").add(key));
-
-        var deleted = new HashSet<>(map1.keySet());
-        deleted.removeAll(map2.keySet());
-        deleted.forEach(key -> diffMap.get("deleted").add(key));
-
-        map1.keySet().stream()
-                .filter(map2::containsKey)
-                .forEach(key -> {
-                    if (!map1.get(key).equals(map2.get(key))) {
-                        diffMap.get("changed").add(key);
-                    }
-                });
-
-        return diffMap;
     }
 }

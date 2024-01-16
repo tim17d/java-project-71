@@ -7,6 +7,10 @@ build/
 /file2.json
 /file1.yml
 /file2.yml
+/nested1.json
+/nested2.json
+/nested1.yml
+/nested2.yml
 
 ### IntelliJ IDEA ###
 .idea
