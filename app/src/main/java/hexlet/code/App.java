@@ -24,7 +24,7 @@ public class App implements Callable<Integer> {
     @Override
     public Integer call() {
         try {
-            System.out.println(Differ.generate(format, filePath1, filePath2));
+            System.out.println("\n" + Differ.generate(format, filePath1, filePath2));
         } catch (FormatException | FileException e) {
             System.out.println(e.getMessage());
         }
