@@ -16,3 +16,9 @@
 
 ### Find difference between two nested YAML files (stylish format)
 [![asciicast](https://asciinema.org/a/1OxzmV0l11BYGeJdV58I33Ryz.svg)](https://asciinema.org/a/1OxzmV0l11BYGeJdV58I33Ryz)
+
+### Find difference between two nested JSON files (plain format)
+[![asciicast](https://asciinema.org/a/w1oiASHUq6hJwqqRIiH4lvss8.svg)](https://asciinema.org/a/w1oiASHUq6hJwqqRIiH4lvss8)
+
+### Find difference between two nested YAML files (plain format)
+[![asciicast](https://asciinema.org/a/ayaLfvArRsx7Yjyxey2PAn38w.svg)](https://asciinema.org/a/ayaLfvArRsx7Yjyxey2PAn38w)
