@@ -1,0 +1,71 @@
+{
+  "added" : [ {
+    "key" : "key2",
+    "value" : "value2"
+  }, {
+    "key" : "numbers4",
+    "value" : [ 4, 5, 6 ]
+  }, {
+    "key" : "obj1",
+    "value" : {
+      "nestedKey" : "value",
+      "isNested" : true
+    }
+  } ],
+  "removed" : [ {
+    "key" : "key1",
+    "value" : "value1"
+  }, {
+    "key" : "numbers3",
+    "value" : [ 3, 4, 5 ]
+  } ],
+  "updated" : [ {
+    "key" : "chars2",
+    "value" : {
+      "from" : [ "d", "e", "f" ],
+      "to" : false
+    }
+  }, {
+    "key" : "checked",
+    "value" : {
+      "from" : false,
+      "to" : true
+    }
+  }, {
+    "key" : "default",
+    "value" : {
+      "from" : null,
+      "to" : [ "value1", "value2" ]
+    }
+  }, {
+    "key" : "id",
+    "value" : {
+      "from" : 45,
+      "to" : null
+    }
+  }, {
+    "key" : "numbers2",
+    "value" : {
+      "from" : [ 2, 3, 4, 5 ],
+      "to" : [ 22, 33, 44, 55 ]
+    }
+  }, {
+    "key" : "setting1",
+    "value" : {
+      "from" : "Some value",
+      "to" : "Another value"
+    }
+  }, {
+    "key" : "setting2",
+    "value" : {
+      "from" : 200,
+      "to" : 300
+    }
+  }, {
+    "key" : "setting3",
+    "value" : {
+      "from" : true,
+      "to" : "none"
+    }
+  } ]
+}

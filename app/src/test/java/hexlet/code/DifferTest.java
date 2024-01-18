@@ -6,8 +6,13 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 public class DifferTest {
     private static final String RESOURCES_DIR = "src/test/resources/";
+
     private static final String EXPECTED_DIFF_STYLISH = """
                 {
                     chars1: [a, b, c]
@@ -34,6 +39,7 @@ public class DifferTest {
                   - setting3: true
                   + setting3: none
                 }""";
+
     private static final String EXPECTED_DIFF_PLAIN = """
                 Property 'chars2' was updated. From [complex value] to false
                 Property 'checked' was updated. From false to true
@@ -49,32 +55,56 @@ public class DifferTest {
                 Property 'setting2' was updated. From 200 to 300
                 Property 'setting3' was updated. From true to 'none'""";
 
+    private static final String EXPECTED_DIFF_JSON;
+
+    static {
+        try {
+            EXPECTED_DIFF_JSON = Files.readString(Path.of(RESOURCES_DIR + "nested_diff.json"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test
-    public void testGenerateWithAllTypeOfDiffsJsonStylish() throws Exception {
+    public void testGenerateWithAllTypeOfDiffsJsonFormatStylish() throws Exception {
         var actualDiff = Differ.generate("stylish", RESOURCES_DIR + "nested1.json",
                 RESOURCES_DIR + "nested2.json");
         assertThat(actualDiff).as("File difference").isEqualTo(EXPECTED_DIFF_STYLISH);
     }
 
     @Test
-    public void testGenerateWithAllTypeOfDiffsYamlStylish() throws Exception {
+    public void testGenerateWithAllTypeOfDiffsYamlFormatStylish() throws Exception {
         var actualDiff = Differ.generate("stylish", RESOURCES_DIR + "nested1.yml",
                 RESOURCES_DIR + "nested2.yml");
         assertThat(actualDiff).as("File difference").isEqualTo(EXPECTED_DIFF_STYLISH);
     }
 
     @Test
-    public void testGenerateWithAllTypeOfDiffsJsonPlain() throws Exception {
+    public void testGenerateWithAllTypeOfDiffsJsonFormatPlain() throws Exception {
         var actualDiff = Differ.generate("plain", RESOURCES_DIR + "nested1.json",
                 RESOURCES_DIR + "nested2.json");
         assertThat(actualDiff).as("File difference").isEqualTo(EXPECTED_DIFF_PLAIN);
     }
 
     @Test
-    public void testGenerateWithAllTypeOfDiffsYamlPlain() throws Exception {
+    public void testGenerateWithAllTypeOfDiffsYamlFormatPlain() throws Exception {
         var actualDiff = Differ.generate("plain", RESOURCES_DIR + "nested1.yml",
                 RESOURCES_DIR + "nested2.yml");
         assertThat(actualDiff).as("File difference").isEqualTo(EXPECTED_DIFF_PLAIN);
+    }
+
+    @Test
+    public void testGenerateWithAllTypeOfDiffsJsonFormatJson() throws Exception {
+        var actualDiff = Differ.generate("json", RESOURCES_DIR + "nested1.json",
+                RESOURCES_DIR + "nested2.json");
+        assertThat(actualDiff).as("File difference").isEqualTo(EXPECTED_DIFF_JSON);
+    }
+
+    @Test
+    public void testGenerateWithAllTypeOfDiffsYamlFormatJson() throws Exception {
+        var actualDiff = Differ.generate("json", RESOURCES_DIR + "nested1.yml",
+                RESOURCES_DIR + "nested2.yml");
+        assertThat(actualDiff).as("File difference").isEqualTo(EXPECTED_DIFF_JSON);
     }
 
     @Test
@@ -114,6 +144,6 @@ public class DifferTest {
         assertThatThrownBy(() -> {
             Differ.generate("1234", RESOURCES_DIR + "file1.json", RESOURCES_DIR + "file2.json");
         }).isInstanceOf(FormatException.class)
-                .hasMessage("Wrong format. Expected 'stylish' or 'plain'");
+                .hasMessage("Wrong format. Expected 'stylish', 'plain' or 'json'");
     }
 }

@@ -1,7 +1,5 @@
 package hexlet.code;
 
-import hexlet.code.exceptions.FileException;
-import hexlet.code.exceptions.FormatException;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -12,6 +10,7 @@ import java.util.concurrent.Callable;
 @Command(name = "gendiff", mixinStandardHelpOptions = true, version = "gendiff 1.0-SNAPSHOT",
         description = "Compares two configuration files and shows a difference.")
 public class App implements Callable<Integer> {
+
     @Option(names = { "-f", "--format" }, paramLabel = "format", description = "output format [default: stylish]")
     private String format = "stylish";
 
@@ -25,7 +24,7 @@ public class App implements Callable<Integer> {
     public Integer call() {
         try {
             System.out.println("\n" + Differ.generate(format, filePath1, filePath2));
-        } catch (FormatException | FileException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return 0;
