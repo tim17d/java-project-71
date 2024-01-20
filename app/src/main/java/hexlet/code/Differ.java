@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Differ {
-    public static String generate(String format, String filePath1, String filePath2) throws IOException {
+    public static String generate(String filePath1, String filePath2, String format) throws IOException {
         var contentString1 = getContentStringFromFile(filePath1);
         var contentType1 = getContentTypeFromFile(filePath1);
         var data1 = Parser.getDataFromContentString(contentString1, contentType1);
@@ -19,7 +19,7 @@ public class Differ {
     }
 
     public static String generate(String filePath1, String filePath2) throws IOException {
-        return generate("stylish", filePath1, filePath2);
+        return generate(filePath1, filePath2, "stylish");
     }
 
     private static String getContentStringFromFile(String filePath) throws IOException {
