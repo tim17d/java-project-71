@@ -1,30 +1,24 @@
 package hexlet.code.formatters;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.StringJoiner;
 
 public class StylishFormatter {
-    public static String formatDiff(Map<String, Object> data1, Map<String, Object> data2,
-                                    Map<String, ArrayList<String>> diffMap) {
-        var keysUnion = new HashSet<>(data1.keySet());
-        keysUnion.addAll(data2.keySet());
+    public static String formatDiff(ArrayList<LinkedHashMap<String, Object>> diffList) {
         var sj = new StringJoiner("\n  ");
-        keysUnion.stream()
-                .sorted()
-                .forEach(key -> {
-                    if (diffMap.get("added").contains(key)) {
-                        sj.add("+ " + key + ": " + data2.get(key));
-                    } else if (diffMap.get("removed").contains(key)) {
-                        sj.add("- " + key + ": " + data1.get(key));
-                    } else if (diffMap.get("updated").contains(key)) {
-                        sj.add("- " + key + ": " + data1.get(key));
-                        sj.add("+ " + key + ": " + data2.get(key));
-                    } else {
-                        sj.add("  " + key + ": " + data1.get(key));
-                    }
-                });
+        diffList.forEach(property -> {
+            if (property.get("type").equals("ADDED")) {
+                sj.add("+ " + property.get("key") + ": " + property.get("value"));
+            } else if (property.get("type").equals("REMOVED")) {
+                sj.add("- " + property.get("key") + ": " + property.get("value"));
+            } else if (property.get("type").equals("UPDATED")) {
+                sj.add("- " + property.get("key") + ": " + property.get("value1"));
+                sj.add("+ " + property.get("key") + ": " + property.get("value2"));
+            } else {
+                sj.add("  " + property.get("key") + ": " + property.get("value"));
+            }
+        });
         return "{\n  " + sj + "\n}";
     }
 }

@@ -1,45 +1,34 @@
 package hexlet.code.formatters;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
 public class PlainFormatter {
-    public static String formatDiff(Map<String, Object> data1, Map<String, Object> data2,
-                                    Map<String, ArrayList<String>> diffMap) {
-        var wrappedData1 = getWrappedData(data1);
-        var wrappedData2 = getWrappedData(data2);
-        var keysUnion = new HashSet<>(data1.keySet());
-        keysUnion.addAll(data2.keySet());
+    public static String formatDiff(ArrayList<LinkedHashMap<String, Object>> diffList) {
         var sj = new StringJoiner("\n");
-        keysUnion.stream()
-                .sorted()
-                .forEach(key -> {
-                    if (diffMap.get("added").contains(key)) {
-                        sj.add("Property '" + key + "' was added with value: " + wrappedData2.get(key));
-                    } else if (diffMap.get("removed").contains(key)) {
-                        sj.add("Property '" + key + "' was removed");
-                    } else if (diffMap.get("updated").contains(key)) {
-                        sj.add("Property '" + key + "' was updated. From " + wrappedData1.get(key)
-                                + " to " + wrappedData2.get(key));
-                    }
-                });
+        diffList.forEach(property -> {
+            if (property.get("type").equals("ADDED")) {
+                sj.add("Property '" + property.get("key")
+                        + "' was added with value: " + getWrapped(property.get("value")));
+            } else if (property.get("type").equals("REMOVED")) {
+                sj.add("Property '" + property.get("key") + "' was removed");
+            } else if (property.get("type").equals("UPDATED")) {
+                sj.add("Property '" + property.get("key") + "' was updated. "
+                        + "From " + getWrapped(property.get("value1")) + " to " + getWrapped(property.get("value2")));
+            }
+        });
         return sj.toString();
     }
 
-    private static Map<String, Object> getWrappedData(Map<String, Object> data) {
-        var wrappedData = new HashMap<>(data);
-        wrappedData.replaceAll((key, value) -> {
-            if (value instanceof List || value instanceof Map) {
-                value = "[complex value]";
-            } else if (value instanceof String) {
-                value = "'" + value + "'";
-            }
-            return value;
-        });
-        return wrappedData;
+    private static Object getWrapped(Object value) {
+        if (value instanceof List || value instanceof Map) {
+            return "[complex value]";
+        } else if (value instanceof String) {
+            return "'" + value + "'";
+        }
+        return value;
     }
 }

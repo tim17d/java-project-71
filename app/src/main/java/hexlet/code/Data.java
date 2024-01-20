@@ -1,35 +1,63 @@
 package hexlet.code;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public class Data {
-    public static Map<String, ArrayList<String>> getDiffMap(Map<String, Object> map1, Map<String, Object> map2) {
-        var diffMap = new HashMap<>(Map.of(
-                "added", new ArrayList<String>(),
-                "removed", new ArrayList<String>(),
-                "updated", new ArrayList<String>()
-        ));
+    public static ArrayList<LinkedHashMap<String, Object>> getDiffList(Map<String, Object> data1,
+                                                                       Map<String, Object> data2) {
+        var added = new HashSet<>(data2.keySet());
+        added.removeAll(data1.keySet());
 
-        var created = new HashSet<>(map2.keySet());
-        created.removeAll(map1.keySet());
-        created.forEach(key -> diffMap.get("added").add(key));
+        var removed = new HashSet<>(data1.keySet());
+        removed.removeAll(data2.keySet());
 
-        var deleted = new HashSet<>(map1.keySet());
-        deleted.removeAll(map2.keySet());
-        deleted.forEach(key -> diffMap.get("removed").add(key));
-
-        map1.keySet().stream()
-                .filter(map2::containsKey)
+        var updated = new HashSet<>();
+        data1.keySet().stream()
+                .filter(data2::containsKey)
                 .forEach(key -> {
-                    if (!Objects.equals(map1.get(key), map2.get(key))) {
-                        diffMap.get("updated").add(key);
+                    if (!Objects.equals(data1.get(key), data2.get(key))) {
+                        updated.add(key);
                     }
                 });
 
-        return diffMap;
+        var diffList = new ArrayList<LinkedHashMap<String, Object>>();
+        var keysUnion = new HashSet<>(data1.keySet());
+        keysUnion.addAll(data2.keySet());
+        keysUnion.stream()
+                .sorted()
+                .forEach(key -> {
+                    if (added.contains(key)) {
+                        diffList.add(getStructuredData(key, "ADDED", data2.get(key)));
+                    } else if (removed.contains(key)) {
+                        diffList.add(getStructuredData(key, "REMOVED", data1.get(key)));
+                    } else if (updated.contains(key)) {
+                        diffList.add(getStructuredDataWithChanges(key, "UPDATED", data1.get(key), data2.get(key)));
+                    } else {
+                        diffList.add(getStructuredData(key, "HELD", data1.get(key)));
+                    }
+                });
+        return diffList;
+    }
+
+    private static LinkedHashMap<String, Object> getStructuredData(String key, String type, Object value) {
+        var data = new LinkedHashMap<String, Object>();
+        data.put("key", key);
+        data.put("type", type);
+        data.put("value", value);
+        return data;
+    }
+
+    private static LinkedHashMap<String, Object> getStructuredDataWithChanges(String key, String type, Object value1,
+                                                                              Object value2) {
+        var data = new LinkedHashMap<String, Object>();
+        data.put("key", key);
+        data.put("type", type);
+        data.put("value1", value1);
+        data.put("value2", value2);
+        return data;
     }
 }

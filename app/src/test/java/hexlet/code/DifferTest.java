@@ -1,6 +1,5 @@
 package hexlet.code;
 
-import hexlet.code.exceptions.FormatException;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -143,7 +142,17 @@ public class DifferTest {
     public void testGenerateThrowsException() {
         assertThatThrownBy(() -> {
             Differ.generate("1234", RESOURCES_DIR + "file1.json", RESOURCES_DIR + "file2.json");
-        }).isInstanceOf(FormatException.class)
+        }).isInstanceOf(UnsupportedOperationException.class)
                 .hasMessage("Wrong format. Expected 'stylish', 'plain' or 'json'");
+
+        var filePath1 = "text.json";
+        assertThatThrownBy(() -> {
+            Differ.generate("text.json", RESOURCES_DIR + "file2.json");
+        }).isInstanceOf(RuntimeException.class)
+                .hasMessage("File '" + filePath1 + "' does not exist");
+
+        assertThatThrownBy(() -> {
+            Differ.generate(RESOURCES_DIR + "hello.html", RESOURCES_DIR + "file2.json");
+        }).isInstanceOf(UnsupportedOperationException.class);
     }
 }
