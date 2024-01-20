@@ -66,50 +66,50 @@ public class DifferTest {
 
     @Test
     public void testGenerateWithAllTypeOfDiffsJsonFormatStylish() throws Exception {
-        var actualDiff = Differ.generate("stylish", RESOURCES_DIR + "nested1.json",
-                RESOURCES_DIR + "nested2.json");
+        var actualDiff = Differ.generate(RESOURCES_DIR + "nested1.json",
+                RESOURCES_DIR + "nested2.json", "stylish");
         assertThat(actualDiff).as("File difference").isEqualTo(EXPECTED_DIFF_STYLISH);
     }
 
     @Test
     public void testGenerateWithAllTypeOfDiffsYamlFormatStylish() throws Exception {
-        var actualDiff = Differ.generate("stylish", RESOURCES_DIR + "nested1.yml",
-                RESOURCES_DIR + "nested2.yml");
+        var actualDiff = Differ.generate(RESOURCES_DIR + "nested1.yml",
+                RESOURCES_DIR + "nested2.yml", "stylish");
         assertThat(actualDiff).as("File difference").isEqualTo(EXPECTED_DIFF_STYLISH);
     }
 
     @Test
     public void testGenerateWithAllTypeOfDiffsJsonFormatPlain() throws Exception {
-        var actualDiff = Differ.generate("plain", RESOURCES_DIR + "nested1.json",
-                RESOURCES_DIR + "nested2.json");
+        var actualDiff = Differ.generate(RESOURCES_DIR + "nested1.json",
+                RESOURCES_DIR + "nested2.json", "plain");
         assertThat(actualDiff).as("File difference").isEqualTo(EXPECTED_DIFF_PLAIN);
     }
 
     @Test
     public void testGenerateWithAllTypeOfDiffsYamlFormatPlain() throws Exception {
-        var actualDiff = Differ.generate("plain", RESOURCES_DIR + "nested1.yml",
-                RESOURCES_DIR + "nested2.yml");
+        var actualDiff = Differ.generate(RESOURCES_DIR + "nested1.yml",
+                RESOURCES_DIR + "nested2.yml", "plain");
         assertThat(actualDiff).as("File difference").isEqualTo(EXPECTED_DIFF_PLAIN);
     }
 
     @Test
     public void testGenerateWithAllTypeOfDiffsJsonFormatJson() throws Exception {
-        var actualDiff = Differ.generate("json", RESOURCES_DIR + "nested1.json",
-                RESOURCES_DIR + "nested2.json");
+        var actualDiff = Differ.generate(RESOURCES_DIR + "nested1.json",
+                RESOURCES_DIR + "nested2.json", "json");
         assertThat(actualDiff).as("File difference").isEqualTo(EXPECTED_DIFF_JSON);
     }
 
     @Test
     public void testGenerateWithAllTypeOfDiffsYamlFormatJson() throws Exception {
-        var actualDiff = Differ.generate("json", RESOURCES_DIR + "nested1.yml",
-                RESOURCES_DIR + "nested2.yml");
+        var actualDiff = Differ.generate(RESOURCES_DIR + "nested1.yml",
+                RESOURCES_DIR + "nested2.yml", "json");
         assertThat(actualDiff).as("File difference").isEqualTo(EXPECTED_DIFF_JSON);
     }
 
     @Test
     public void testGenerateWithAbsoluteDiff() throws Exception {
-        var actualDiff = Differ.generate("stylish", RESOURCES_DIR + "file1.json",
-                RESOURCES_DIR + "file3.json");
+        var actualDiff = Differ.generate(RESOURCES_DIR + "file1.json",
+                RESOURCES_DIR + "file3.json", "stylish");
         var expectedDiff = """
                 {
                   + adapter: 123.234.53.22
@@ -126,8 +126,8 @@ public class DifferTest {
 
     @Test
     public void testGenerateWithNoDiff() throws Exception {
-        var actualDiff = Differ.generate("stylish", RESOURCES_DIR + "file1.json",
-                RESOURCES_DIR + "file1.json");
+        var actualDiff = Differ.generate(RESOURCES_DIR + "file1.json",
+                RESOURCES_DIR + "file1.json", "stylish");
         var expectedDiff = """
                 {
                     follow: false
@@ -141,7 +141,7 @@ public class DifferTest {
     @Test
     public void testGenerateThrowsException() {
         assertThatThrownBy(() -> {
-            Differ.generate("1234", RESOURCES_DIR + "file1.json", RESOURCES_DIR + "file2.json");
+            Differ.generate(RESOURCES_DIR + "file1.json", RESOURCES_DIR + "file2.json", "1234");
         }).isInstanceOf(UnsupportedOperationException.class)
                 .hasMessage("Wrong format. Expected 'stylish', 'plain' or 'json'");
 
