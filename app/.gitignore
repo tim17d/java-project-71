@@ -3,10 +3,6 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-/file1.json
-/file2.json
-/file1.yml
-/file2.yml
 /nested1.json
 /nested2.json
 /nested1.yml

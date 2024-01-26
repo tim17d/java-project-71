@@ -7,13 +7,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class JsonFormatter {
-    public static String formatDiff(ArrayList<LinkedHashMap<String, Object>> diffList) {
-
+    public static String formatDiff(ArrayList<LinkedHashMap<String, Object>> diffList) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(diffList);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Unable to generate difference in JSON format");
-        }
+        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(diffList);
     }
 }
