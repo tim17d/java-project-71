@@ -21,16 +21,16 @@
 
 ---
 ## Plain format
-### Find difference between two nested JSON files (plain format)
+### Find difference between two nested JSON files
 [![asciicast](https://asciinema.org/a/w1oiASHUq6hJwqqRIiH4lvss8.svg)](https://asciinema.org/a/w1oiASHUq6hJwqqRIiH4lvss8)
 
-### Find difference between two nested YAML files (plain format)
+### Find difference between two nested YAML files
 [![asciicast](https://asciinema.org/a/ayaLfvArRsx7Yjyxey2PAn38w.svg)](https://asciinema.org/a/ayaLfvArRsx7Yjyxey2PAn38w)
 
 ---
 ## JSON format
-### Find difference between two nested JSON files (JSON format)
-[![asciicast](https://asciinema.org/a/6mV79sBgVQ81QekjBwwUni3jD.svg)](https://asciinema.org/a/6mV79sBgVQ81QekjBwwUni3jD)
+### Find difference between two nested JSON files
+[![asciicast](https://asciinema.org/a/duFGE1YxuQf5k0h1wSvNCDVii.svg)](https://asciinema.org/a/duFGE1YxuQf5k0h1wSvNCDVii)
 
-### Find difference between two nested YAML files (JSON format)
-[![asciicast](https://asciinema.org/a/5httyqTnORyNHnR92d8hkZJIY.svg)](https://asciinema.org/a/5httyqTnORyNHnR92d8hkZJIY)
+### Find difference between two nested YAML files
+[![asciicast](https://asciinema.org/a/IOmXLhizoSyny457RKgEBBwga.svg)](https://asciinema.org/a/IOmXLhizoSyny457RKgEBBwga)
